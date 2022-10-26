@@ -3,39 +3,121 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\RegisterCompanyRequest;
 use App\Http\Requests\Api\RegisterRequest;
 use App\Models\Company;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TwoFactorVerificationEmail;
 
 class RegisterController extends Controller
 {
     //
-    public function register(RegisterRequest $request)
+    public function register(RegisterCompanyRequest $request)
     {
-        $request['password'] = bcrypt($request['password']);
-        $company = Company::create($request->all());
-        if ($company) {
-            $success['token'] = $company->createToken('MyApp')->accessToken;
-            return response()->json(['success' => true, 'token' => $success['token'], 'message' => $company->name . "created successfully"]);
 
+        if($user = User::where('email',$request['email'])->exists())
+        {
+            $user = User::where('email',$request['email'])->firstOrFail();
+           if($user->status==false && $user->email_verified_at=='')
+           {
+               $code = mt_rand(100000, 999999);
+               $request['password'] = bcrypt($request['password']);
+               $request['name']= $request['first_name'].' '.$request['last_name'];
+               $request['two_factor_secret'] = bcrypt($code) ;
+               $userupdate = $user->update($request->all());
+               if($userupdate)
+               {
+                   $email = $user->email;
+                   $user->company->update($request->all());
+                   Mail::to($email)->send(new TwoFactorVerificationEmail($code));
+                   return response()->json(['success' => true, 'message' => 'email send to your email', 'code' => $code]);
+               }
+           }else
+               {
+                   return response()->json(['success'=>false,'message'=>'Email Already exists']);
+           }
+        }else
+        {
+            $code = mt_rand(100000, 999999);
+            $request['password'] = bcrypt($request['password']);
+            $request['name']= $request['first_name'].' '.$request['last_name'];
+            $request['two_factor_secret'] = bcrypt($code) ;
+            $user = User::create($request->all());
+            if($user)
+            {
+                $email = $user->email;
+                $user->company()->create($request->all());
+                Mail::to($email)->send(new TwoFactorVerificationEmail($code));
+                return response()->json(['success' => true, 'message' => 'email send to your email', 'code' => $code]);
+            }
+            else
+            {
+                return response()->json(['success' => false, 'message' => 'Some thing went wrong', 'code' => $code],204);
+
+            }
+        }
+
+
+/*        $user = User::create($request->all());
+        if ($user) {
+           // $token = $user->createToken('MyApp')->accessToken;
+            //  dd($token->token);
+            $company = $user->company()->create($request->all());
+
+           // return response()->json(['success' => true, 'token' => $token, 'message' => $company->company_name . "created successfully"]);
         } else {
             return response()->json(['success' => false, 'message' => "Some thing went wrong"]);
 
+        }*/
+
+    }
+
+    public function emailVerification(Request $request)
+    {
+        if(User::where(['email'=>$request['email']])->exists())
+        {
+            $user = User::where(['email'=>$request['email']])->firstOrFail();
+            $code =Hash::check($request->code, $user->two_factor_secret, []);
+            if($code)
+            {
+                $user->email_verified_at = Carbon::now();
+                $user->status=true;
+                $user->save();
+                return response()->json(['success' => true, 'message' => 'Congratulation Email verified successfully']);
+            }else
+                {
+                    return response()->json(['success' => false, 'message' => 'Please enter correct verification code']);
+                }
         }
+        else
+
+        {
+            return response()->json(['success' => false, 'message' => 'Email doesnot match in our record']);
+        }
+
 
     }
 
     public function login(Request $request)
 
     {
-        $company = Company::where('email', $request->email)->first();
-        if ($company) {
-            $password = Hash::check($request->password, $company->password, []);
+        if (User::where('email', $request->email)->exists()) {
+            $user = User::where('email', $request->email)->first();
+            $password = Hash::check($request->password, $user->password, []);
             if ($password) {
-                $success['token'] = $company->createToken('MyApp')->accessToken;
-                return response()->json(['success' => true, 'message' => 'logedIn successfully','token'=> $success['token']]);
+                if($user->status==true)
+                {
+                    $token = $user->createToken('MyApp')->accessToken;;
+                    return response()->json(['success' => true, 'message' => 'logedIn successfully', 'token' => $token]);
+                }else {
+                    return response()->json(['success' => false, 'message' => "Please verify your Email"]);
+                }
+
             } else {
                 return response()->json(['success' => false, 'message' => "Email or Password is incorrect"]);
             }
@@ -43,5 +125,12 @@ class RegisterController extends Controller
             return response()->json(['success' => false, 'message' => "un-Authenticated"]);
         }
 
+    }
+
+    public function logout()
+    {
+        $user = Auth::user()->token();
+        $user->revoke();
+        return response()->json(['success' => true, 'message' => 'logout successfully']);
     }
 }

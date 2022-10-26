@@ -13,12 +13,17 @@ class Company extends  Authenticatable
 
     protected $fillable=
         [
-            'name',
-            'email',
-            'password',
+            'first_name',
+            'last_name',
+            'type',
             'phone',
-            'mobile',
-            'address',
-            'website'
+            'ein',
+            'state',
+            'zip_code',
+            'address'
         ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
