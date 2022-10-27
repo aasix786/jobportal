@@ -55,7 +55,7 @@ class PasswordController extends Controller
             $user->save();
             return response()->json(['success' => true, 'message' => 'Password updated successfully']);
         } else {
-            return response()->json(['success'=>false, 'message' => 'Something went wrong']);
+            return response()->json(['success' => false, 'message' => 'Something went wrong']);
         }
     }
 
@@ -67,9 +67,9 @@ class PasswordController extends Controller
         if ($password) {
             $user->password = bcrypt($request['password']);
             $user->save();
-            return response()->json(['success'=>true, 'message' => 'Password update successfully']);
+            return response()->json(['success' => true, 'message' => 'Password update successfully']);
         } else {
-            return response()->json(['success'=>false, 'message' => 'Current password doesnot match']);
+            return response()->json(['success' => false, 'message' => 'Current password doesnot match']);
         }
 
     }
