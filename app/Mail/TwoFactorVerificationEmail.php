@@ -31,7 +31,7 @@ class TwoFactorVerificationEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Verification Email")->from('skhan@gmail.com')->html("this the code".$this->code);
+        return $this->subject("Verification Email")->from('skhan@gmail.com')->html("Verification code".$this->code);
 
     }
 

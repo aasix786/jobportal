@@ -30,7 +30,7 @@ protected $code;
      */
     public function build()
     {
-        return $this->subject("Reset Password code")->html("this the code".$this->code);
+        return $this->subject("Reset Password code")->html("Verification".$this->code);
 
     }
 

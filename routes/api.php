@@ -39,5 +39,4 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/edit_developer', [DeveloperController::class, 'editDeveloper']);
     Route::post('/update_developer/{id}', [DeveloperController::class, 'updateDeveloper']);
 
-
 });
