@@ -55,15 +55,11 @@ class RegisterController extends Controller
         }
 
     }
+
     // Developer Registration
     public function registerDeveloper(Request $request)
     {
-       /* if($request->file('image')){
-        $file= $request->file('image');
-        $filename= date('YmdHi').$file->getClientOriginalName();
-        $file-> move(public_path('public/Image'), $filename);
-        $data['image']= $filename;
-    }*/
+
 
         if ($user = User::where('email', $request['email'])->exists()) {
             $user = User::where('email', $request['email'])->firstOrFail();
@@ -74,6 +70,12 @@ class RegisterController extends Controller
                 $userupdate = $user->update($request->all());
                 if ($userupdate) {
                     $email = $user->email;
+                    if ($request['photo']) {
+                        $file = $request->file('photo');
+                        $filename = date('YmdHi') . $file->getClientOriginalName();
+                        $file->move(public_path('public/image'), $filename);
+                        $request['image'] = '/public/image/' . $filename;
+                    }
                     $user->developer->update($request->all());
                     Mail::to($email)->send(new TwoFactorVerificationEmail($code));
                     return response()->json(['success' => true, 'message' => 'email send to your email', 'code' => $code]);
@@ -88,6 +90,12 @@ class RegisterController extends Controller
             $user = User::create($request->all());
             if ($user) {
                 $email = $user->email;
+                if ($request->file('photo')) {
+                    $file = $request->file('photo');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('public/image'), $filename);
+                    $request['image'] = '/public/image/' . $filename;
+                }
                 $user->developer()->create($request->all());
                 Mail::to($email)->send(new TwoFactorVerificationEmail($code));
                 return response()->json(['success' => true, 'message' => 'email send to your email', 'code' => $code]);

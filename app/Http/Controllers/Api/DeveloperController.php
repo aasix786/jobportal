@@ -12,13 +12,11 @@ class DeveloperController extends Controller
 
     public function editDeveloper(Request $request)
     {
-        $user      = Auth::user();
-        if($user)
-        {
-            $developer =  $user->developer()->firstOrFail();
+        $user = Auth::user();
+        if ($user) {
+            $developer = $user->developer()->firstOrFail();
             return response()->json(['success' => true, 'developer' => $developer]);
-        }else
-        {
+        } else {
             return response()->json(['success' => false, 'message' => 'Unauthenticated Request']);
         }
 
@@ -26,14 +24,15 @@ class DeveloperController extends Controller
 
     public function updateDeveloper(Request $request, $id)
     {
-       /* if($request->file('image')){
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('public/Image'), $filename);
-            $data['image']= $filename;
-        }*/
         $developer = Developer::find($id)->firstOrFail();
         if ($developer) {
+
+            if ($request['photo']) {
+                $file = $request['photo'];
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('public/image'), $filename);
+                $request['image'] = '/public/image/' . $filename;
+            }
             $developer->update($request->all());
             return response()->json(['success' => true, 'message' => 'Developer updated successfully']);
         } else {
