@@ -14,7 +14,7 @@ class Skill extends Model
 ];
     public function developers()
     {
-        return $this->belongsToMany(Developer::class);
+        return $this->belongsToMany(Developer::class,'developers_skills')->withTimestamps();
 
     }
 }

@@ -40,6 +40,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Developer Routes
     Route::get('/edit_developer', [DeveloperController::class, 'editDeveloper']);
     Route::post('/update_developer/{id}', [DeveloperController::class, 'updateDeveloper']);
+    Route::post('/create/developerskills/{id}',[DeveloperController::class,'createDeveloperSkills']);
+    Route::get('/developer/skills/{id}', [DeveloperController::class, 'developerSkills']);
+
     // Stack Routes
     Route::get('/stacks', [StackController::class, 'index']);
     Route::post('/create/stack', [StackController::class, 'createStack']);

@@ -84,7 +84,7 @@ class RegisterController extends Controller
                 return response()->json(['success' => false, 'message' => 'Email Already exists']);
             }
         } else {
-            $code = mt_rand(100000, 999999);
+            $code = mt_rand(1000, 9999);
             $request['password'] = bcrypt($request['password']);
             $request['two_factor_secret'] = bcrypt($code);
             $user = User::create($request->all());
