@@ -39,4 +39,48 @@ class DeveloperController extends Controller
             return response()->json(['success' => false, 'message' => 'Some thing went wrong!...']);
         }
     }
+
+    public function createDeveloperSkills(Request $request,$id)
+    {
+
+        if(Developer::where('id', $id)->exists())
+        {
+            $developerId =Developer::where('id', $id)->firstOrFail();
+           $developerSkills= $developerId->skills()->sync(json_decode($request['skills']));
+           if($developerSkills)
+           {
+               return response()->json(['success'=>true,'message'=>'Developer skills created successfully'],200);
+           }else
+           {
+               return response()->json(['success'=>false,'message'=>'Issue in creating developer skills'],204);
+
+           }
+        }
+        else
+        {
+            return 'something went wrong...';
+        }
+    }
+    public function developerSkills(Request $request,$id)
+    {
+        if(Developer::where('id', $id)->exists())
+        {
+            $developerId =Developer::where('id', $id)->firstOrFail();
+            $developerSkills= $developerId->skills;
+            if($developerSkills)
+            {
+
+                $skills = [];
+                return response()->json(['success'=>true,'skills'=>$developerSkills],200);
+            }else
+            {
+                return response()->json(['success'=>false,'message'=>'Issue in fetching developer skills'],204);
+
+            }
+        }
+        else
+        {
+            return 'something went wrong...';
+        }
+    }
 }
