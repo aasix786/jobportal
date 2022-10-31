@@ -19,10 +19,16 @@ class Developer extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+
     }
 
     public function skills()
     {
         return $this->belongsToMany(Skill::class,'developers_skills')->withTimestamps();
     }
+    public function stacks()
+    {
+        return $this->belongsToMany(Stack::class,'developers_stacks')->withTimestamps();
+    }
+
 }

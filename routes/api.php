@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/update_developer/{id}', [DeveloperController::class, 'updateDeveloper']);
     Route::post('/create/developerskills/{id}',[DeveloperController::class,'createDeveloperSkills']);
     Route::get('/developer/skills/{id}', [DeveloperController::class, 'developerSkills']);
+    Route::post('/create/developerstacks/{id}',[DeveloperController::class,'createDeveloperStacks']);
+
 
     // Stack Routes
     Route::get('/stacks', [StackController::class, 'index']);
