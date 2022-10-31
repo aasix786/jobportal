@@ -83,4 +83,25 @@ class DeveloperController extends Controller
             return 'something went wrong...';
         }
     }
+
+    public function createDeveloperStacks(Request $request,$id)
+    {
+        if(Developer::where('id', $id)->exists())
+        {
+            $developerId =Developer::where('id', $id)->firstOrFail();
+            $developerStacks= $developerId->stacks()->sync(json_decode($request['stacks']));
+            if($developerStacks)
+            {
+                return response()->json(['success'=>true,'message'=>'Developer stacks created successfully'],200);
+            }else
+            {
+                return response()->json(['success'=>false,'message'=>'Issue in creating developer stacks'],204);
+
+            }
+        }
+        else
+        {
+            return 'something went wrong...';
+        }
+    }
 }
