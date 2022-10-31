@@ -37,7 +37,6 @@ class SkillController extends Controller
     }
     public function editSkill(Request $request,$id)
     {
-        dd(11);
         $skill = Skill::find($id)->firstOrFail();
         if ($skill)
         {
