@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class DeveloperRegistrationRequest extends FormRequest
+class ProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,11 @@ class DeveloperRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-          'name'=>'required',
-            'email'=>'email|required|unique:users',
-            'password'=>'required',
-            'role'=>'required',
-            'photo'=>'required|mimes:png,jpeg,gif',
+            'name'=>'required|unique:projects',
+            'description'=>'required',
+            'files' => 'required',
+            'files.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf,txt',
+
         ];
     }
 

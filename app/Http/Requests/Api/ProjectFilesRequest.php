@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class DeveloperRegistrationRequest extends FormRequest
+class ProjectFilesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,20 +26,17 @@ class DeveloperRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-          'name'=>'required',
-            'email'=>'email|required|unique:users',
-            'password'=>'required',
-            'role'=>'required',
-            'photo'=>'required|mimes:png,jpeg,gif',
+            'files' => 'required',
+            'files.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf,txt',
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
         ]));
     }
 }

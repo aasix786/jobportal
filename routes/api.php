@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\DeveloperController;
 use App\Http\Controllers\Api\StackController;
 use App\Http\Controllers\Api\SkillController;
+use App\Http\Controllers\Api\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,7 +21,7 @@ use App\Http\Controllers\Api\SkillController;
 */
 //company registration
 Route::post('register', [RegisterController::class, 'register']);
-//twofactor email verification.
+//twoFactor email verification.
 Route::post('/email/verification', [RegisterController::class, 'emailVerification']);
 Route::post('login', [RegisterController::class, 'login']);
 Route::post('password/code/check', [PasswordController::class, 'passwordCodeCheck']);
@@ -57,6 +58,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/edit/skill/{id}', [SkillController::class, 'editSkill']);
     Route::post('/update/skill/{id}', [SkillController::class, 'updateSkill']);
     Route::post('/delete/skill/{id}', [SkillController::class, 'deleteSkill']);
-
+    // Project Routes
+    Route::get('/projects', [ProjectController::class, 'index']);
+    Route::post('/create/project', [ProjectController::class, 'createProject']);
+    Route::post('/project/files/{id}', [ProjectController::class, 'projectFiles']);
+    Route::post('/project/stacks/create/{id}', [ProjectController::class, 'projectStacks']);
+    Route::get('/project/{id}', [ProjectController::class, 'project']);
+    Route::post('/update/project/{id}',[ProjectController::class, 'updateProject']);
+    Route::post('/delete/project/{id}',[ProjectController::class, 'deleteProject']);
 
 });
