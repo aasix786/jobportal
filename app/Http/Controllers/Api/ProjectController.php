@@ -147,6 +147,38 @@ class ProjectController extends Controller
 
     public function updateProject(Request $request, $id)
     {
+        if (Project::where('id', $id)->exists()) {
+            $project = Project::where('id', $id)->firstOrFail();
+            $project->update($request->all());
+            if ($project) {
+                // saving project files
+                if ($request['files'] != '') {
+                    $project->projectFiles()->delete();
+                    foreach ($request['files'] as $file) {
+                        $projectFiles = new ProjectFile();
+                        $name = time() . rand(1, 100) . '.' . $file->extension();
+                        $file->move(public_path('/project/files/'), $name);
+                        $projectFiles->project_id = $project->id;
+                        $projectFiles->file = '/public/project/files/' . $name;
+                        $projectFiles->save();
+                    }
 
+                } // ending project files
+                // starting project stacks
+                if ($request->stacks != '') {
+                    $projectStacks = $project->stacks()->sync(json_decode($request['stacks']));
+                    if ($projectStacks) {
+                        //  return response()->json(['success' => true, 'message' => 'Project stacks created successfully'], 200);
+                    } else {
+                        return response()->json(['success' => false, 'message' => 'Issue in creating project stacks'], 204);
+
+                    }
+
+                }// ending stacks
+                return response()->json(['success' => true, 'message' => $project->name . ' updated successfully']);
+            } else {
+                return response()->json(['success' => true, 'message' => 'some thing went wrong...']);
+            }
+        }
     }
 }
