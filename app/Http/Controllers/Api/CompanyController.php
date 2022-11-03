@@ -35,4 +35,20 @@ class CompanyController extends Controller
             return response()->json(['success' => false, 'message' => 'No Company data found']);
         }
     }
+
+    public function companyDetails(Request $request , $id)
+
+    {
+        if(Company::where('id', $id)->exists())
+        {
+            $company = Company::where('id', $id)->firstOrFail();
+            return response()->json(['success'=>true,'company'=>$company]);
+        }
+        else
+        {
+            return response()->json(['success'=>true,'message'=>"someing thing went wrong"]);
+        }
+    }
+
+
 }

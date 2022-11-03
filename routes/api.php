@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('password/update', [PasswordController::class, 'updatePassword']);
     Route::post('/logout', [RegisterController::class, 'logout']);
     Route::get('/companies', [CompanyController::class, 'companies']);
-
+    Route::get('/company/detail/{id}', [CompanyController::class, 'companyDetails']);
     // Developer Routes
     Route::get('/edit_developer', [DeveloperController::class, 'editDeveloper']);
     Route::post('/update_developer/{id}', [DeveloperController::class, 'updateDeveloper']);
