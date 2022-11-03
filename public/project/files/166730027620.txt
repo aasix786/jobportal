@@ -1,0 +1,28 @@
+ /* "niklasravnsborg/laravel-pdf": "^4.1"*/
+
+  niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+
+'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+
+
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME= 9c369bc485574a
+MAIL_PASSWORD= 03f4d3534d6cc0
+MAIL_ENCRYPTION=null
+...........................live santa ............
+PAYPAL_MODE=live
+PAYPAL_LIVE_API_USERNAME= john_api1.b3events.net
+PAYPAL_LIVE_API_PASSWORD=CSY8F7PNSSX9D4XK
+PAYPAL_LIVE_API_SECRET=EKPJhsRktR9zKsu1zYI3EZrwwOuJOLU5Otuk8pg2z9mmU-mRW-NM6z7EBEuuQ0LtEtGiA0djK2h2xmz5
+PAYPAL_CURRENCY=USD
+PAYPAL_SANDBOX_API_CERTIFICATE=
+PAYPAL_CLIENT_ID=ATUVXGri9mt2g6CFlk3PjeLwEwRVFdPYdZi24lGk6AlB91HA0DwkFRPvfxjMVa_0dxUcN8BXbALH-jn6
+.................job portal client idies .......................
+Client secret: pKqQsSyYoStN3FHyTKOS9X4tvHMyO6CvEW9wpj37
+Password grant client created successfully.
+Client ID: 2
+Client secret: j4lJ146MGpdrAociRynwfj27RMahOw5VaKgWmAM8
+
+090078601

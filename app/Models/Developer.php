@@ -30,5 +30,9 @@ class Developer extends Model
     {
         return $this->belongsToMany(Stack::class,'developers_stacks')->withTimestamps();
     }
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class,'developers_projects')->withTimestamps();
+    }
 
 }

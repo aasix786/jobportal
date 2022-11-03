@@ -104,4 +104,32 @@ class DeveloperController extends Controller
             return 'something went wrong...';
         }
     }
+
+    public function assignDeveloperProject(Request $request , $id)
+    {
+        if(Developer::where('id', $id)->exists())
+        {
+            $developerId =Developer::where('id', $id)->firstOrFail();
+            $developerProjects= $developerId->projects()->syncWithoutDetaching(json_decode($request['projects']));
+            if($developerProjects)
+            {
+               // dd($developerId->projects());
+                foreach ($developerId->projects as $project)
+                {
+                   $project->status="assigned";
+                    $project->save();
+                }
+                dd($developerProjects);
+                return response()->json(['success'=>true,'message'=>'Project assigned successfully'],200);
+            }else
+            {
+                return response()->json(['success'=>false,'message'=>'Issue in assigning project to developer stacks'],204);
+
+            }
+        }
+        else
+        {
+            return 'something went wrong...';
+        }
+    }
 }

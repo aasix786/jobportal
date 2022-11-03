@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class DeveloperRegistrationRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class DeveloperRegistrationRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,20 @@ class DeveloperRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+          'name'=>'required',
+            'email'=>'email|required|unique:users',
+            'password'=>'required',
+            'role'=>'required',
+            'photo'=>'required|mimes:png,jpeg,gif',
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ]));
     }
 }
