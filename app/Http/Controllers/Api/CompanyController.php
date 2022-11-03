@@ -26,4 +26,13 @@ class CompanyController extends Controller
             return response()->json(['success' => false, 'message' => 'Some thing went wrong!...']);
         }
     }
+    public function companies(Request $request)
+    {
+        $companies = Company::all();
+        if ($companies) {
+            return response()->json(['success' => true, 'companies' => $companies]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'No Company data found']);
+        }
+    }
 }

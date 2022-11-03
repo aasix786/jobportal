@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->enum('status',['deleted','assigned','pending'])->default('pending');
+        Schema::create('developers_projects', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('project_id')->index()->constrained()->cascadeOnDelete();
+            $table->foreignId('developer_id')->index()->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });
+        Schema::dropIfExists('developers_projects');
     }
 };

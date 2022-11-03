@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->enum('status',['deleted','assigned','pending'])->default('pending');
+            $table->float('budget')->default(0);
             $table->timestamps();
         });
     }

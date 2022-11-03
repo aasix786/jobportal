@@ -33,18 +33,16 @@ Route::post('/register/developer', [RegisterController::class, 'registerDevelope
 Route::group(['middleware' => 'auth:api'], function () {
    //General
     Route::post('password/update', [PasswordController::class, 'updatePassword']);
-    //Company Routes
-    Route::get('/edit_company', [CompanyController::class, 'editCompany']);
-    Route::post('/update_company/{id}', [CompanyController::class, 'updateCompany']);
-    Route::post('details', [PasswordController::class, 'test']);
     Route::post('/logout', [RegisterController::class, 'logout']);
+    Route::get('/companies', [CompanyController::class, 'companies']);
+
     // Developer Routes
     Route::get('/edit_developer', [DeveloperController::class, 'editDeveloper']);
     Route::post('/update_developer/{id}', [DeveloperController::class, 'updateDeveloper']);
     Route::post('/create/developerskills/{id}',[DeveloperController::class,'createDeveloperSkills']);
     Route::get('/developer/skills/{id}', [DeveloperController::class, 'developerSkills']);
     Route::post('/create/developerstacks/{id}',[DeveloperController::class,'createDeveloperStacks']);
-
+    Route::post('assign/developer/project/{id}',[DeveloperController::class,'assignDeveloperProject']);
 
     // Stack Routes
     Route::get('/stacks', [StackController::class, 'index']);
@@ -66,5 +64,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/project/{id}', [ProjectController::class, 'project']);
     Route::post('/update/project/{id}',[ProjectController::class, 'updateProject']);
     Route::post('/delete/project/{id}',[ProjectController::class, 'deleteProject']);
+
+    Route::group(['middleware' => ['admin']], function () {
+
+    });
+
+    Route::group(['middleware' => ['company']], function () {
+        //Company Routes
+        Route::get('/edit_company', [CompanyController::class, 'editCompany']);
+        Route::post('/update_company/{id}', [CompanyController::class, 'updateCompany']);
+        Route::post('details', [PasswordController::class, 'test']);
+    });
 
 });
