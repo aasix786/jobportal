@@ -26,6 +26,7 @@ class CompanyController extends Controller
             return response()->json(['success' => false, 'message' => 'Some thing went wrong!...']);
         }
     }
+
     public function companies(Request $request)
     {
         $companies = Company::all();
@@ -36,17 +37,14 @@ class CompanyController extends Controller
         }
     }
 
-    public function companyDetails(Request $request , $id)
+    public function companyDetails(Request $request, $id)
 
     {
-        if(Company::where('id', $id)->exists())
-        {
+        if (Company::where('id', $id)->exists()) {
             $company = Company::where('id', $id)->firstOrFail();
-            return response()->json(['success'=>true,'company'=>$company]);
-        }
-        else
-        {
-            return response()->json(['success'=>true,'message'=>"someing thing went wrong"]);
+            return response()->json(['success' => true, 'company' => $company]);
+        } else {
+            return response()->json(['success' => true, 'message' => "someing thing went wrong"]);
         }
     }
 

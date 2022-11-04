@@ -136,22 +136,21 @@ class RegisterController extends Controller
             if ($password) {
                 if ($user->status == true) {
                     $token = $user->createToken('MyApp')->accessToken;
-                    if($user->role=='company')
-                    {
+                    if ($user->role == 'company') {
                         $company =
-                        $data=
+                        $data =
                             [
-                                'first_name'=>$user->company->first_name,
-                                'first_name'=>$user->company->last_name,
-                                'email'=>$user->email,
-                                'type'=>$user->company->type,
-                                'ein'=>$user->company->ein,
-                                'state'=>$user->company->state,
-                                'zip_code'=>$user->company->zip_code,
-                                'address'=>$user->company->address,
+                                'first_name' => $user->company->first_name,
+                                'first_name' => $user->company->last_name,
+                                'email' => $user->email,
+                                'type' => $user->company->type,
+                                'ein' => $user->company->ein,
+                                'state' => $user->company->state,
+                                'zip_code' => $user->company->zip_code,
+                                'address' => $user->company->address,
 
-                        ];
-                        return response()->json(['success' => true, 'message' => 'logedIn successfully','data'=>$data, 'token' => $token]);
+                            ];
+                        return response()->json(['success' => true, 'message' => 'logedIn successfully', 'data' => $data, 'token' => $token]);
 
                     }
                     return response()->json(['success' => true, 'message' => 'logedIn successfully', 'token' => $token]);

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DeveloperController;
 use App\Http\Controllers\Api\StackController;
 use App\Http\Controllers\Api\SkillController;
 use App\Http\Controllers\Api\ProjectController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,7 +32,7 @@ Route::post('reset/password', [PasswordController::class, 'passwordReset']);
 Route::post('/register/developer', [RegisterController::class, 'registerDeveloper']);
 
 Route::group(['middleware' => 'auth:api'], function () {
-   //General
+    //General
     Route::post('password/update', [PasswordController::class, 'updatePassword']);
     Route::post('/logout', [RegisterController::class, 'logout']);
     Route::get('/companies', [CompanyController::class, 'companies']);
@@ -39,10 +40,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Developer Routes
     Route::get('/edit_developer', [DeveloperController::class, 'editDeveloper']);
     Route::post('/update_developer/{id}', [DeveloperController::class, 'updateDeveloper']);
-    Route::post('/create/developerskills/{id}',[DeveloperController::class,'createDeveloperSkills']);
+    Route::post('/create/developerskills/{id}', [DeveloperController::class, 'createDeveloperSkills']);
     Route::get('/developer/skills/{id}', [DeveloperController::class, 'developerSkills']);
-    Route::post('/create/developerstacks/{id}',[DeveloperController::class,'createDeveloperStacks']);
-    Route::post('assign/developer/project/{id}',[DeveloperController::class,'assignDeveloperProject']);
+    Route::post('/create/developerstacks/{id}', [DeveloperController::class, 'createDeveloperStacks']);
+    Route::post('assign/developer/project/{id}', [DeveloperController::class, 'assignDeveloperProject']);
 
     // Stack Routes
     Route::get('/stacks', [StackController::class, 'index']);
@@ -62,13 +63,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/project/files/{id}', [ProjectController::class, 'projectFiles']);
     Route::post('/project/stacks/create/{id}', [ProjectController::class, 'projectStacks']);
     Route::get('/project/{id}', [ProjectController::class, 'project']);
-    Route::post('/update/project/{id}',[ProjectController::class, 'updateProject']);
-    Route::post('/delete/project/{id}',[ProjectController::class, 'deleteProject']);
+    Route::post('/update/project/{id}', [ProjectController::class, 'updateProject']);
+    Route::post('/delete/project/{id}', [ProjectController::class, 'deleteProject']);
 
     Route::group(['middleware' => ['admin']], function () {
 
     });
-
     Route::group(['middleware' => ['company']], function () {
         //Company Routes
         Route::get('/edit_company', [CompanyController::class, 'editCompany']);

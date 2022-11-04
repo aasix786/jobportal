@@ -40,95 +40,75 @@ class DeveloperController extends Controller
         }
     }
 
-    public function createDeveloperSkills(Request $request,$id)
+    public function createDeveloperSkills(Request $request, $id)
     {
 
-        if(Developer::where('id', $id)->exists())
-        {
-            $developerId =Developer::where('id', $id)->firstOrFail();
-           $developerSkills= $developerId->skills()->sync(json_decode($request['skills']));
-           if($developerSkills)
-           {
-               return response()->json(['success'=>true,'message'=>'Developer skills created successfully'],200);
-           }else
-           {
-               return response()->json(['success'=>false,'message'=>'Issue in creating developer skills'],204);
+        if (Developer::where('id', $id)->exists()) {
+            $developerId = Developer::where('id', $id)->firstOrFail();
+            $developerSkills = $developerId->skills()->sync(json_decode($request['skills']));
+            if ($developerSkills) {
+                return response()->json(['success' => true, 'message' => 'Developer skills created successfully'], 200);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Issue in creating developer skills'], 204);
 
-           }
-        }
-        else
-        {
+            }
+        } else {
             return 'something went wrong...';
         }
     }
-    public function developerSkills(Request $request,$id)
+
+    public function developerSkills(Request $request, $id)
     {
-        if(Developer::where('id', $id)->exists())
-        {
-            $developerId =Developer::where('id', $id)->firstOrFail();
-            $developerSkills= $developerId->skills;
-            if($developerSkills)
-            {
+        if (Developer::where('id', $id)->exists()) {
+            $developerId = Developer::where('id', $id)->firstOrFail();
+            $developerSkills = $developerId->skills;
+            if ($developerSkills) {
 
                 $skills = [];
-                return response()->json(['success'=>true,'skills'=>$developerSkills],200);
-            }else
-            {
-                return response()->json(['success'=>false,'message'=>'Issue in fetching developer skills'],204);
+                return response()->json(['success' => true, 'skills' => $developerSkills], 200);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Issue in fetching developer skills'], 204);
 
             }
-        }
-        else
-        {
+        } else {
             return 'something went wrong...';
         }
     }
 
-    public function createDeveloperStacks(Request $request,$id)
+    public function createDeveloperStacks(Request $request, $id)
     {
-        if(Developer::where('id', $id)->exists())
-        {
-            $developerId =Developer::where('id', $id)->firstOrFail();
-            $developerStacks= $developerId->stacks()->sync(json_decode($request['stacks']));
-            if($developerStacks)
-            {
-                return response()->json(['success'=>true,'message'=>'Developer stacks created successfully'],200);
-            }else
-            {
-                return response()->json(['success'=>false,'message'=>'Issue in creating developer stacks'],204);
+        if (Developer::where('id', $id)->exists()) {
+            $developerId = Developer::where('id', $id)->firstOrFail();
+            $developerStacks = $developerId->stacks()->sync(json_decode($request['stacks']));
+            if ($developerStacks) {
+                return response()->json(['success' => true, 'message' => 'Developer stacks created successfully'], 200);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Issue in creating developer stacks'], 204);
 
             }
-        }
-        else
-        {
+        } else {
             return 'something went wrong...';
         }
     }
 
-    public function assignDeveloperProject(Request $request , $id)
+    public function assignDeveloperProject(Request $request, $id)
     {
-        if(Developer::where('id', $id)->exists())
-        {
-            $developerId =Developer::where('id', $id)->firstOrFail();
-            $developerProjects= $developerId->projects()->syncWithoutDetaching(json_decode($request['projects']));
-            if($developerProjects)
-            {
-               // dd($developerId->projects());
-                foreach ($developerId->projects as $project)
-                {
-                   $project->status="assigned";
+        if (Developer::where('id', $id)->exists()) {
+            $developerId = Developer::where('id', $id)->firstOrFail();
+            $developerProjects = $developerId->projects()->syncWithoutDetaching(json_decode($request['projects']));
+            if ($developerProjects) {
+                // dd($developerId->projects());
+                foreach ($developerId->projects as $project) {
+                    $project->status = "assigned";
                     $project->save();
                 }
                 dd($developerProjects);
-                return response()->json(['success'=>true,'message'=>'Project assigned successfully'],200);
-            }else
-            {
-                return response()->json(['success'=>false,'message'=>'Issue in assigning project to developer stacks'],204);
+                return response()->json(['success' => true, 'message' => 'Project assigned successfully'], 200);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Issue in assigning project to developer stacks'], 204);
 
             }
-        }
-        else
-        {
+        } else {
             return 'something went wrong...';
         }
     }
