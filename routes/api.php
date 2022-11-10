@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\DeveloperController;
 use App\Http\Controllers\Api\StackController;
 use App\Http\Controllers\Api\SkillController;
 use App\Http\Controllers\Api\ProjectController;
-
+use App\Http\Controllers\Api\ProjectHoursController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,7 +44,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/developer/skills/{id}', [DeveloperController::class, 'developerSkills']);
     Route::post('/create/developerstacks/{id}', [DeveloperController::class, 'createDeveloperStacks']);
     Route::post('assign/developer/project/{id}', [DeveloperController::class, 'assignDeveloperProject']);
-
+    // Project Hours Routes
+    Route::post('/developer/checkin/project/{id}', [ProjectHoursController::class, 'developerCheckin']);
+    Route::post('/developer/break/project/{id}', [ProjectHoursController::class, 'developerBreak']);
+    Route::post('/developer/checkout/project/{id}', [ProjectHoursController::class, 'developerCheckout']);
+    Route::post('/developer/project/hours/bydate',[ProjectHoursController::class, 'developerDaliyHours']);
     // Stack Routes
     Route::get('/stacks', [StackController::class, 'index']);
     Route::post('/create/stack', [StackController::class, 'createStack']);
@@ -65,6 +69,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/project/{id}', [ProjectController::class, 'project']);
     Route::post('/update/project/{id}', [ProjectController::class, 'updateProject']);
     Route::post('/delete/project/{id}', [ProjectController::class, 'deleteProject']);
+
 
     Route::group(['middleware' => ['admin']], function () {
 

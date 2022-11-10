@@ -102,7 +102,6 @@ class DeveloperController extends Controller
                     $project->status = "assigned";
                     $project->save();
                 }
-                dd($developerProjects);
                 return response()->json(['success' => true, 'message' => 'Project assigned successfully'], 200);
             } else {
                 return response()->json(['success' => false, 'message' => 'Issue in assigning project to developer stacks'], 204);

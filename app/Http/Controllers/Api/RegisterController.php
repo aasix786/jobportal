@@ -78,7 +78,7 @@ class RegisterController extends Controller
                     }
                     $user->developer->update($request->all());
                     Mail::to($email)->send(new TwoFactorVerificationEmail($code));
-                    return response()->json(['success' => true, 'message' => 'email send to your email', 'code' => $code]);
+                    return response()->json(['success' => true, 'message' => 'code send to your email', 'code' => $code]);
                 }
             } else {
                 return response()->json(['success' => false, 'message' => 'Email Already exists']);
@@ -98,7 +98,7 @@ class RegisterController extends Controller
                 }
                 $user->developer()->create($request->all());
                 Mail::to($email)->send(new TwoFactorVerificationEmail($code));
-                return response()->json(['success' => true, 'message' => 'email send to your email', 'code' => $code]);
+                return response()->json(['success' => true, 'message' => 'code send to your email', 'code' => $code]);
             } else {
                 return response()->json(['success' => false, 'message' => 'Some thing went wrong', 'code' => $code], 204);
 

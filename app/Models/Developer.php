@@ -35,4 +35,8 @@ class Developer extends Model
         return $this->belongsToMany(Project::class,'developers_projects')->withTimestamps();
     }
 
+    public function projectHours()
+    {
+        return $this->hasMany(ProjectHour::class);
+    }
 }
