@@ -39,4 +39,6 @@ class StackRequest extends FormRequest
             'data'      => $validator->errors()
         ]));
     }
+
+
 }
