@@ -12,7 +12,7 @@ class ProjectHour extends Model
     protected $fillable
     =
         [
-            'time','type','project_id','developer_id'
+            'start','break_start','break_end','checkout','project_id','developer_id'
         ];
     protected $casts=
         [

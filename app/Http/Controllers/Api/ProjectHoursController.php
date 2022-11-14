@@ -19,11 +19,10 @@ class ProjectHoursController extends Controller
         if($userId->role=='developer')
         {
           $startDateTime = Carbon::now();
-          $request['time']= $startDateTime->toDateTimeString();
+          $request['start']= $startDateTime->toDateTimeString();
             $request['developer_id'] =$developer->id;
          $developerCheckIn = new ProjectHour();
             $developerCheckIn->time = $request['time'];
-            $developerCheckIn->type = "start";
             $developerCheckIn->project_id = $id;
             $developerCheckIn->developer_id = $request['developer_id'];
            $developerCheckIn->save();
@@ -46,11 +45,10 @@ class ProjectHoursController extends Controller
         if($userId->role=='developer')
         {
             $startDateTime = Carbon::now();
-            $request['time']= $startDateTime->toDateTimeString();
+            $breakStart= $startDateTime->toDateTimeString();
             $request['developer_id'] =$developer->id;
             $developerBreak = new ProjectHour();
-            $developerBreak->time = $request['time'];
-            $developerBreak->type = "break";
+            $developerBreak->break_start = $breakStart;
             $developerBreak->project_id = $id;
             $developerBreak->developer_id = $request['developer_id'];
             $developerBreak->save();
