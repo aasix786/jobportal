@@ -37,7 +37,7 @@ class PasswordController extends Controller
 
             $password = Hash::check($request->code, $user->password, []);
             if ($password) {
-                return response()->json(['success' => true, 'message' => 'token match successfully, now you can password']);
+                return response()->json(['success' => true, 'message' => 'token match successfully, now you can update password']);
             } else {
                 return response()->json(['success' => false, 'message' => 'Token missmatch']);
             }

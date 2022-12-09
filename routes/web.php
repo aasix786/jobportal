@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +14,10 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/index',[HomeController::class,'index']);
+Route::post('/upload-file',[HomeController::class,'file'])->name('file.upload');
+Route::get('/calculator',[HomeController::class,'calculator']);
+Route::post('/calculate/result',[HomeController::class,'calculateResult'])->name('calculate.result');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

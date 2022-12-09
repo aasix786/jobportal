@@ -25,12 +25,14 @@ Route::post('register', [RegisterController::class, 'register']);
 //twoFactor email verification.
 Route::post('/email/verification', [RegisterController::class, 'emailVerification']);
 Route::post('login', [RegisterController::class, 'login']);
-Route::post('password/code/check', [PasswordController::class, 'passwordCodeCheck']);
+// reset password
+
 Route::post('password/email', [PasswordController::class, 'passwordEmail']);
+Route::post('password/code/check', [PasswordController::class, 'passwordCodeCheck']);
 Route::post('reset/password', [PasswordController::class, 'passwordReset']);
+
 //Developer registration.
 Route::post('/register/developer', [RegisterController::class, 'registerDeveloper']);
-
 Route::group(['middleware' => 'auth:api'], function () {
     //General
     Route::post('password/update', [PasswordController::class, 'updatePassword']);
